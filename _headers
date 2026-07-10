@@ -1,0 +1,11 @@
+# Cloudflare Pages — regras de cache
+# Imagens e fontes: cache longo e imutável (nomes fixos)
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML: sempre revalida para pegar atualizações de link na hora
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mickey Ever After — Mundo Mágico da MEA</title>
+<meta name="description" content="Produtos oficiais e originais da Disney, importados do mundo todo. Acesse a loja, entre no Grupo VIP e fale conosco pelo WhatsApp." />
+
+<!-- ============================================================= -->
+<!--  SEO / social preview (opcional)                              -->
+<!-- ============================================================= -->
+<meta property="og:title" content="Mickey Ever After — Mundo Mágico da MEA" />
+<meta property="og:description" content="Produtos oficiais e originais da Disney, importados do mundo todo." />
+<meta property="og:image" content="images/hero.webp" />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  /* =========================================================== */
+  /*  PALETA DE MARCA                                             */
+  /* =========================================================== */
+  :root {
+    --navy:        #10315f;
+    --navy-deep:   #0a2145;
+    --navy-bar:    #12356b;
+    --red:         #c0392b;
+    --gold:        #f4c430;
+    --teal-bg:     #1a6e9d;   /* combina com a base da imagem hero */
+    --cream:       #fdf6e9;
+    --white:       #ffffff;
+    --radius:      18px;
+    --maxw:        500px;
+    --shadow:      0 10px 26px rgba(4, 20, 45, .35);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Poppins', system-ui, sans-serif;
+    background: var(--teal-bg);
+    color: var(--white);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Container central estilo "link page" ------------------------ */
+  .page {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
+    /* imagem hero como fundo da coluna + preenchimento teal abaixo */
+    background:
+      linear-gradient(180deg, rgba(26,110,157,0) 78%, var(--teal-bg) 97%),
+      url('images/hero.webp') top center / 100% auto no-repeat,
+      var(--teal-bg);
+  }
+
+  /* Espaço reservado para a arte da Branca de Neve no topo ------- */
+  /* padding-top é relativo à LARGURA, então escala com o device   */
+  .hero-spacer { width: 100%; padding-top: 112%; }
+
+  /* Bloco de conteúdo sobre a floresta azul --------------------- */
+  .content {
+    padding: 0 20px 46px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* =========================================================== */
+  /*  BOTÕES DE LINK (banners)                                    */
+  /* =========================================================== */
+  .links { display: flex; flex-direction: column; gap: 18px; }
+
+  .link-card {
+    display: block;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
+  .link-card img { display: block; width: 100%; height: auto; }
+  .link-card:hover,
+  .link-card:focus-visible {
+    transform: translateY(-4px) scale(1.012);
+    box-shadow: 0 16px 34px rgba(4, 20, 45, .5);
+    filter: brightness(1.04);
+  }
+  .link-card:active { transform: translateY(-1px) scale(.997); }
+
+  /* =========================================================== */
+  /*  FEEDBACKS                                                   */
+  /* =========================================================== */
+  .feedbacks { margin-top: 40px; }
+
+  .feedbacks h2 {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    font-size: 2.5rem;
+    text-align: center;
+    color: var(--white);
+    text-shadow: 0 2px 10px rgba(0,0,0,.3);
+    margin-bottom: 16px;
+  }
+
+  .carousel {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 4px 2px 12px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .carousel::-webkit-scrollbar { display: none; }
+
+  .fb-card {
+    flex: 0 0 72%;
+    scroll-snap-align: center;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--white);
+    box-shadow: var(--shadow);
+  }
+  .fb-card img { display: block; width: 100%; height: auto; }
+
+  .dots { display: flex; justify-content: center; gap: 8px; margin-top: 6px; }
+  .dots button {
+    width: 9px; height: 9px; border-radius: 50%;
+    border: none; padding: 0; cursor: pointer;
+    background: rgba(255,255,255,.45);
+    transition: background .2s ease, transform .2s ease;
+  }
+  .dots button.active { background: var(--gold); transform: scale(1.25); }
+
+  /* =========================================================== */
+  /*  FAQ / ACORDEÃO                                              */
+  /* =========================================================== */
+  .faq { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; }
+
+  .faq-item {
+    background: var(--navy-bar);
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(4,20,45,.3);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.06);
+  }
+  .faq-q {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 17px 46px 17px 20px;
+    cursor: pointer;
+    position: relative;
+    line-height: 1.35;
+  }
+  .faq-q::after {
+    content: '+';
+    position: absolute;
+    right: 18px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--gold);
+    transition: transform .25s ease;
+  }
+  .faq-item.open .faq-q::after { transform: translateY(-50%) rotate(45deg); }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease;
+  }
+  .faq-a p {
+    padding: 0 20px 18px;
+    font-size: .92rem;
+    font-weight: 400;
+    color: rgba(255,255,255,.9);
+  }
+
+  /* =========================================================== */
+  /*  RODAPÉ / REDES SOCIAIS                                      */
+  /* =========================================================== */
+  .socials {
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    margin-top: 42px;
+    padding-bottom: 6px;
+  }
+  .socials a {
+    color: var(--white);
+    display: inline-flex;
+    transition: transform .18s ease, color .18s ease;
+  }
+  .socials a:hover { transform: translateY(-3px) scale(1.1); color: var(--gold); }
+  .socials svg { width: 30px; height: 30px; }
+
+  .footer-note {
+    text-align: center;
+    font-size: .72rem;
+    color: rgba(255,255,255,.6);
+    padding: 8px 20px 30px;
+  }
+
+  /* Animação de entrada --------------------------------------- */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (min-width: 520px) {
+    .fb-card { flex-basis: 62%; }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <!-- arte da Branca de Neve (fundo) -->
+    <div class="hero-spacer" aria-hidden="true"></div>
+
+    <div class="content">
+
+      <!-- ===== BOTÕES DE LINK ===== -->
+      <nav class="links" aria-label="Links principais">
+        <a id="link-site" class="link-card reveal" href="#" target="_blank" rel="noopener">
+          <img src="images/btn-site.webp" alt="Acesse nosso site — Confira o mundo mágico da MEA" />
+        </a>
+        <a id="link-comunidade" class="link-card reveal" href="#" target="_blank" rel="noopener">
+          <img src="images/btn-comunidade.webp" alt="Comunidade Mágica — Faça parte do nosso Grupo VIP" />
+        </a>
+        <a id="link-whatsapp" class="link-card reveal" href="#" target="_blank" rel="noopener">
+          <img src="images/btn-whatsapp.webp" alt="Fale conosco através do WhatsApp" />
+        </a>
+      </nav>
+
+      <!-- ===== FEEDBACKS ===== -->
+      <section class="feedbacks reveal">
+        <h2>feedbacks</h2>
+        <div class="carousel" id="carousel">
+          <figure class="fb-card"><img src="images/feedback-1.webp" alt="Feedback de cliente sobre canecas da Disney" /></figure>
+          <figure class="fb-card"><img src="images/feedback-2.webp" alt="Feedback de cliente sobre item natalino da Disney" /></figure>
+          <figure class="fb-card"><img src="images/feedback-3.webp" alt="Feedback de cliente sobre luminária da Disney" /></figure>
+        </div>
+        <div class="dots" id="dots" aria-hidden="true"></div>
+      </section>
+
+      <!-- ===== FAQ ===== -->
+      <section class="faq reveal" aria-label="Perguntas frequentes">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Os produtos são originais e oficiais da Disney?</button>
+          <div class="faq-a"><p>Sim. Garantimos 100% de autenticidade. Nossa equipe faz a curadoria e compra os itens diretamente nos complexos e lojas oficiais da Disney dos EUA, Paris, Xangai, Japão e outros locais do mundo.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Os itens já estão no Brasil ou vou pagar taxas?</button>
+          <div class="faq-a"><p>Toda a importação e burocracia são por nossa conta. No nosso site, você encontra tanto produtos a pronta entrega (já no Brasil) quanto itens sob encomenda. Você nunca pagará taxas extras de alfândega.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Como vejo os produtos e faço o meu pedido?</button>
+          <div class="faq-a"><p>É super fácil. Clique em “Acesse nosso site” para ver o catálogo completo, entre no nosso “Grupo VIP” para ter acesso antecipado a lançamentos raros ou clique em “Fale Conosco” para tirar dúvidas direto pelo WhatsApp.</p></div>
+        </div>
+      </section>
+
+      <!-- ===== REDES SOCIAIS ===== -->
+      <nav class="socials reveal" aria-label="Redes sociais">
+        <a id="link-email" href="#" aria-label="E-mail">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3 6l9 6 9-6"/></svg>
+        </a>
+        <a id="link-instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a id="link-tiktok" href="#" target="_blank" rel="noopener" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2h-3v13.2a2.6 2.6 0 1 1-2.1-2.55V9.6a5.6 5.6 0 1 0 5.1 5.57V8.9a6.8 6.8 0 0 0 4 1.3V7.2a3.9 3.9 0 0 1-2.9-1.3A3.9 3.9 0 0 1 16.5 3z"/></svg>
+        </a>
+        <a id="link-x" href="#" target="_blank" rel="noopener" aria-label="X (Twitter)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H20.5l-6.49 7.42L21.5 21h-5.9l-4.62-6.04L5.6 21H2.63l6.94-7.94L2.5 3h6.05l4.18 5.52L17.53 3zm-1.04 16.2h1.64L7.6 4.7H5.84l10.65 14.5z"/></svg>
+        </a>
+      </nav>
+
+      <p class="footer-note">© <span id="year"></span> Mickey Ever After · Todos os direitos reservados</p>
+    </div>
+  </main>
+
+<script>
+  /* ============================================================= */
+  /*  >>> CONFIGURE AQUI OS LINKS DE DESTINO <<<                    */
+  /*  Basta trocar o texto entre aspas. Deixe "#" se ainda não     */
+  /*  tiver o link. Para o WhatsApp use o formato:                 */
+  /*  https://wa.me/55DDDNUMERO  (ex.: https://wa.me/5511999999999)*/
+  /* ============================================================= */
+  const LINKS = {
+    site:       "https://mickeyeverafter.com.br/",   // Botão "Acesse nosso site"
+    comunidade: "https://chat.whatsapp.com/HvmrIjAIbg06Ipsh6f9GCb?mode=wwt",   // Grupo VIP
+    whatsapp:   "https://api.whatsapp.com/send/?phone=5511940364268&text&type=phone_number&app_absent=0",   // Atendimento WhatsApp
+    email:      "mailto:mickeyeverafter@gmail.com",
+    instagram:  "https://www.instagram.com/mickeyeverafterstore",
+    tiktok:     "https://www.tiktok.com/@mickeyeverafterstore",
+    x:          "https://x.com/mickeyeverafter"
+  };
+
+  // Aplica os links aos elementos
+  const map = {
+    "link-site": "site", "link-comunidade": "comunidade", "link-whatsapp": "whatsapp",
+    "link-email": "email", "link-instagram": "instagram", "link-tiktok": "tiktok", "link-x": "x"
+  };
+  for (const [id, key] of Object.entries(map)) {
+    const el = document.getElementById(id);
+    if (el && LINKS[key] && LINKS[key] !== "#") el.href = LINKS[key];
+  }
+
+  // Ano no rodapé
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  /* ===== FAQ acordeão ===== */
+  document.querySelectorAll(".faq-item").forEach(item => {
+    const btn = item.querySelector(".faq-q");
+    const ans = item.querySelector(".faq-a");
+    btn.addEventListener("click", () => {
+      const open = item.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open);
+      ans.style.maxHeight = open ? ans.scrollHeight + "px" : "0";
+    });
+  });
+
+  /* ===== Carrossel de feedbacks: dots ===== */
+  const carousel = document.getElementById("carousel");
+  const dotsWrap = document.getElementById("dots");
+  const cards = carousel.children;
+  for (let i = 0; i < cards.length; i++) {
+    const b = document.createElement("button");
+    b.setAttribute("aria-label", "Ir para feedback " + (i + 1));
+    if (i === 0) b.classList.add("active");
+    b.addEventListener("click", () => cards[i].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" }));
+    dotsWrap.appendChild(b);
+  }
+  carousel.addEventListener("scroll", () => {
+    const center = carousel.scrollLeft + carousel.clientWidth / 2;
+    let idx = 0, best = Infinity;
+    for (let i = 0; i < cards.length; i++) {
+      const c = cards[i].offsetLeft + cards[i].offsetWidth / 2;
+      const d = Math.abs(c - center);
+      if (d < best) { best = d; idx = i; }
+    }
+    [...dotsWrap.children].forEach((d, i) => d.classList.toggle("active", i === idx));
+  }, { passive: true });
+
+  /* ===== Reveal ao rolar ===== */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
