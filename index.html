@@ -18,7 +18,7 @@
 <!-- ============================================================= -->
 <meta property="og:title" content="Mickey Ever After — Mundo Mágico da MEA" />
 <meta property="og:description" content="Produtos oficiais e originais da Disney, importados do mundo todo." />
-<meta property="og:image" content="images/hero.webp" />
+<meta property="og:image" content="images/og-cover.webp" />
 <meta property="og:type" content="website" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,7 +35,7 @@
     --navy-bar:    #12356b;
     --red:         #c0392b;
     --gold:        #f4c430;
-    --teal-bg:     #1a6e9d;   /* combina com a base da imagem hero */
+    --teal-bg:     #297bb2;   /* = base plana da imagem hero (fim sem emenda) */
     --cream:       #fdf6e9;
     --white:       #ffffff;
     --radius:      18px;
@@ -61,9 +61,9 @@
     margin: 0 auto;
     min-height: 100vh;
     position: relative;
-    /* imagem hero como fundo da coluna + preenchimento teal abaixo */
+    /* imagem hero de altura total; a base plana continua sem emenda
+       até o fim da página em qualquer tela */
     background:
-      linear-gradient(180deg, rgba(26,110,157,0) 78%, var(--teal-bg) 97%),
       url('images/hero.webp') top center / 100% auto no-repeat,
       var(--teal-bg);
   }
