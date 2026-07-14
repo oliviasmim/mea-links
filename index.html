@@ -35,7 +35,7 @@
     --navy-bar:    #12356b;
     --red:         #c0392b;
     --gold:        #f4c430;
-    --teal-bg:     #297bb2;   /* = base plana da imagem hero (fim sem emenda) */
+    --teal-bg:     #297bb2;   /* cor sólida do fundo = base da imagem hero */
     --cream:       #fdf6e9;
     --white:       #ffffff;
     --radius:      18px;
@@ -57,14 +57,14 @@
 
   /* Container central estilo "link page" ------------------------ */
   .page {
-    max-width: var(--maxw);
+    width: 100%;
     margin: 0 auto;
     min-height: 100vh;
     position: relative;
-    /* imagem hero de altura total; a base plana continua sem emenda
-       até o fim da página em qualquer tela */
+    /* imagem hero ocupa a largura total da coluna/tela; a base termina
+       numa cor sólida que continua até o fim da página sem emenda */
     background:
-      url('images/hero.webp?v=2') top center / 100% auto no-repeat,
+      url('images/hero.webp?v=4') top center / 100% auto no-repeat,
       var(--teal-bg);
   }
 
@@ -73,7 +73,11 @@
   .hero-spacer { width: 100%; padding-top: 112%; }
 
   /* Bloco de conteúdo sobre a floresta azul --------------------- */
+  /* conteúdo (botões, feedbacks, FAQ) fica numa coluna estreita centralizada,
+     mesmo com a imagem de fundo ocupando a largura total */
   .content {
+    max-width: var(--maxw);
+    margin: 0 auto;
     padding: 0 20px 46px;
     position: relative;
     z-index: 2;
