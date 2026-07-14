@@ -13,9 +13,7 @@
 <link rel="shortcut icon" href="favicon.ico?v=2" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
 
-<!-- ============================================================= -->
-<!--  SEO / social preview (opcional)                              -->
-<!-- ============================================================= -->
+<!-- SEO / social preview -->
 <meta property="og:title" content="Mickey Ever After — Mundo Mágico da MEA" />
 <meta property="og:description" content="Produtos oficiais e originais da Disney, importados do mundo todo." />
 <meta property="og:image" content="images/og-cover.webp?v=2" />
@@ -27,20 +25,27 @@
 
 <style>
   /* =========================================================== */
-  /*  PALETA DE MARCA                                             */
+  /*  PALETA — arte de fundo (hero.webp mobile / hero-desktop.webp) */
   /* =========================================================== */
   :root {
-    --navy:        #10315f;
-    --navy-deep:   #0a2145;
-    --navy-bar:    #12356b;
+    --sky:         #0f8dbf;   /* azul da base da arte (fusão)        */
+    --sky-deep:    #0a2145;   /* navy profundo (fim da página)       */
+    --forest-bar:  #12356b;   /* cards de FAQ                         */
     --red:         #c0392b;
     --gold:        #f4c430;
-    --teal-bg:     #297bb2;   /* cor sólida do fundo = base da imagem hero */
     --cream:       #fdf6e9;
     --white:       #ffffff;
     --radius:      18px;
-    --maxw:        500px;
-    --shadow:      0 10px 26px rgba(4, 20, 45, .35);
+    --maxw:        520px;
+    --shadow:      0 10px 26px rgba(6, 22, 12, .45);
+
+    /* MOBILE (arte hero.webp — bem vertical): a cena/personagens fica
+       no topo, então os botões começam bem abaixo e o degradê azul
+       entra mais tarde */
+    --scene:       106vw;     /* onde os botões começam               */
+    --fadeA:       98vw;      /* até aqui a arte fica nítida           */
+    --fadeB:       138vw;     /* meio da transição                    */
+    --fadeC:       180vw;     /* a partir daqui, azul cheio            */
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -49,45 +54,95 @@
 
   body {
     font-family: 'Poppins', system-ui, sans-serif;
-    background: var(--teal-bg);
     color: var(--white);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    background: var(--sky);
   }
 
-  /* Container central estilo "link page" ------------------------ */
+  /* a arte cobre a página inteira (largura total, do topo ao fim).
+     Mobile usa a arte vertical hero.webp; no desktop trocamos por
+     hero-desktop.webp (ver @media abaixo) */
   .page {
     width: 100%;
     margin: 0 auto;
     min-height: 100vh;
     position: relative;
-    /* imagem hero ocupa a largura total da coluna/tela; a base termina
-       numa cor sólida que continua até o fim da página sem emenda */
+    overflow: hidden;
     background:
-      url('images/hero.webp?v=4') top center / 100% auto no-repeat,
-      var(--teal-bg);
+      url('images/hero.webp?v=5') top center / 100% auto no-repeat,
+      var(--sky-deep);
   }
 
-  /* Espaço reservado para a arte da Branca de Neve no topo ------- */
-  /* padding-top é relativo à LARGURA, então escala com o device   */
-  .hero-spacer { width: 100%; padding-top: 112%; }
+  /* degradê azul SOBRE a imagem: transparente no topo (arte visível)
+     e vai ficando azul rumo ao rodapé, dando o efeito da imagem
+     desaparecendo aos poucos (pontos ajustados por breakpoint) */
+  .page::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    /* MOBILE: sem degradê geral; apenas um fade no finalzinho — onde a
+       arte hero.webp termina (~424vw) — para não cortar seco no navy */
+    background: linear-gradient(to bottom,
+      transparent     0,
+      transparent     360vw,
+      var(--sky-deep) 424vw);
+  }
 
-  /* imagem de fundo do desktop — só aparece/carrega a partir de 860px */
-  .hero-bg { display: none; }
+  /* seta flutuante "role para ver mais" — só no desktop (ver @media) */
+  .scroll-cue {
+    display: none;
+    justify-content: center;
+    z-index: 3;
+    color: rgba(255, 255, 255, .9);
+    filter: drop-shadow(0 2px 8px rgba(4, 20, 45, .5));
+    transition: color .2s ease;
+  }
+  .scroll-cue svg {
+    display: block;
+    width: 40px;
+    height: 40px;
+    animation: cue-bounce 1.8s ease-in-out infinite;
+  }
+  .scroll-cue:hover { color: var(--gold); }
 
-  /* Bloco de conteúdo sobre a floresta azul --------------------- */
-  /* conteúdo (botões, feedbacks, FAQ) fica numa coluna estreita centralizada,
-     mesmo com a imagem de fundo ocupando a largura total */
+  /* seta ancorada na base da 1ª tela (aponta para os botões) */
+  .scroll-cue--hero {
+    position: absolute;
+    left: 0; right: 0;
+    top: calc(100vh - 62px);
+  }
+  /* seta no fluxo, entre feedbacks e FAQ */
+  .scroll-cue--inline {
+    margin: 2px auto 30px;
+  }
+
+  @keyframes cue-bounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(8px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-cue svg { animation: none; }
+  }
+
+  /* =========================================================== */
+  /*  CONTEÚDO                                                   */
+  /* =========================================================== */
+  /* conteúdo flui sobre a arte; o padding-top (--scene) posiciona os
+     botões logo abaixo dos personagens */
   .content {
     max-width: var(--maxw);
     margin: 0 auto;
-    padding: 0 20px 46px;
+    padding: var(--scene) 20px 46px;
     position: relative;
     z-index: 2;
   }
 
   /* =========================================================== */
-  /*  BOTÕES DE LINK (banners)                                    */
+  /*  BOTÕES DE LINK (banners)                                   */
   /* =========================================================== */
   .links { display: flex; flex-direction: column; gap: 18px; }
 
@@ -104,13 +159,13 @@
   .link-card:hover,
   .link-card:focus-visible {
     transform: translateY(-4px) scale(1.012);
-    box-shadow: 0 16px 34px rgba(4, 20, 45, .5);
+    box-shadow: 0 16px 34px rgba(6, 22, 12, .55);
     filter: brightness(1.04);
   }
   .link-card:active { transform: translateY(-1px) scale(.997); }
 
   /* =========================================================== */
-  /*  FEEDBACKS                                                   */
+  /*  FEEDBACKS                                                  */
   /* =========================================================== */
   .feedbacks { margin-top: 40px; }
 
@@ -120,7 +175,7 @@
     font-size: 2.5rem;
     text-align: center;
     color: var(--white);
-    text-shadow: 0 2px 10px rgba(0,0,0,.3);
+    text-shadow: 0 2px 10px rgba(0,0,0,.35);
     margin-bottom: 16px;
   }
 
@@ -155,16 +210,16 @@
   .dots button.active { background: var(--gold); transform: scale(1.25); }
 
   /* =========================================================== */
-  /*  FAQ / ACORDEÃO                                              */
+  /*  FAQ / ACORDEÃO                                             */
   /* =========================================================== */
   .faq { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; }
 
   .faq-item {
-    background: var(--navy-bar);
+    background: var(--forest-bar);
     border-radius: 12px;
-    box-shadow: 0 6px 16px rgba(4,20,45,.3);
+    box-shadow: 0 6px 16px rgba(6,22,12,.35);
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.07);
   }
   .faq-q {
     width: 100%;
@@ -205,7 +260,7 @@
   }
 
   /* =========================================================== */
-  /*  RODAPÉ / REDES SOCIAIS                                      */
+  /*  RODAPÉ / REDES SOCIAIS                                     */
   /* =========================================================== */
   .socials {
     display: flex;
@@ -229,7 +284,7 @@
     padding: 8px 20px 30px;
   }
 
-  /* Animação de entrada --------------------------------------- */
+  /* Animação de entrada */
   .reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s ease; }
   .reveal.in { opacity: 1; transform: none; }
 
@@ -238,57 +293,39 @@
   }
 
   /* =========================================================== */
-  /*  DESKTOP — faixa larga do hero + grade                      */
-  /*  (o layout mobile acima permanece intacto)                  */
+  /*  DESKTOP — grade dos elementos                              */
   /* =========================================================== */
   @media (min-width: 860px) {
-    /* arte vertical de desktop como fundo full-bleed, dentro de uma coluna
-       central (máx. 1200px) para não estourar em telas largas */
+    /* DESKTOP: troca para a arte horizontal-vertical hero-desktop.webp
+       e reajusta a cena/degradê (imagem menos alta que a mobile) */
+    :root {
+      --scene: 66vw;
+      --fadeA: 48vw;
+      --fadeB: 80vw;
+      --fadeC: 116vw;
+    }
     .page {
-      max-width: none;
-      margin: 0;
-      overflow: hidden;
-      background: var(--teal-bg);
+      background-image: url('images/hero-desktop.webp?v=5');
+    }
+    /* setas visíveis só no desktop */
+    .scroll-cue { display: flex; }
+
+    /* DESKTOP: degradê completo sobre a arte */
+    .page::after {
+      background: linear-gradient(to bottom,
+        transparent             0,
+        transparent             var(--fadeA),
+        rgba(15, 141, 191, .55) var(--fadeB),
+        var(--sky)              var(--fadeC),
+        var(--sky-deep)         100%);
     }
 
-    /* preenche toda a largura (100vw) com uma cópia desfocada da arte,
-       para não sobrar barras vazias nas laterais em telas largas */
-    .page::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: url('images/hero-desktop.webp?v=2') center top / cover no-repeat;
-      filter: blur(42px) brightness(.92);
-      transform: scale(1.18);
-      z-index: 0;
-    }
-
-    /* a arte nítida fica centralizada, num tamanho natural (sem
-       super-zoom que causava o "corte") */
-    .hero-bg {
-      display: block;
-      position: absolute;
-      top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 1500px;
-      z-index: 1;
-    }
-    .hero-bg img { display: block; width: 100%; height: auto; }
-
-    /* reserva a cena do topo; os links ficam logo abaixo, dentro do
-       primeiro 100vh (sem precisar rolar) */
-    .hero-spacer {
-      padding-top: 0;
-      height: 74vh;
-      background: none;
-    }
-    .hero-spacer::after { display: none; }
-
-    /* conteúdo ocupa a largura maior do desktop, sobre a região azul */
     .content {
       max-width: 960px;
-      padding: 8px 40px 64px;
+      /* mantém o padding-top (--scene) e ajusta apenas laterais/base */
+      padding-left: 40px;
+      padding-right: 40px;
+      padding-bottom: 64px;
     }
 
     /* botões de link lado a lado, 3 colunas */
@@ -298,18 +335,17 @@
       gap: 22px;
     }
 
-    /* no desktop os 3 botões já nascem em destaque (estado "hover" como padrão) */
+    /* os 3 botões já nascem em destaque (estado "hover" como padrão) */
     .link-card {
       transform: translateY(-4px) scale(1.012);
-      box-shadow: 0 16px 34px rgba(4, 20, 45, .5);
+      box-shadow: 0 16px 34px rgba(6, 22, 12, .55);
       filter: brightness(1.06) saturate(1.05);
       border: 2px solid rgba(255, 255, 255, .55);
     }
-    /* novo hover: destaque ainda maior */
     .link-card:hover,
     .link-card:focus-visible {
       transform: translateY(-10px) scale(1.05);
-      box-shadow: 0 26px 54px rgba(4, 20, 45, .6), 0 0 0 4px rgba(244, 196, 48, .55);
+      box-shadow: 0 26px 54px rgba(6, 22, 12, .6), 0 0 0 4px rgba(244, 196, 48, .55);
       filter: brightness(1.12) saturate(1.12);
       border-color: var(--gold);
     }
@@ -330,7 +366,6 @@
     .fb-card { flex: none; }
     .dots { display: none; }
 
-    /* FAQ numa coluna central mais confortável */
     .faq {
       max-width: 820px;
       margin-left: auto;
@@ -347,7 +382,6 @@
   }
 
   @media (min-width: 1240px) {
-    /* botões maiores em telas grandes */
     .content { max-width: 1180px; padding-left: 56px; padding-right: 56px; }
     .links { gap: 30px; }
   }
@@ -355,27 +389,21 @@
   @media (min-width: 1500px) {
     .content { max-width: 1360px; }
     .links { gap: 36px; }
-    /* sem blur nas laterais: a própria arte cobre 100% da largura */
-    .page::before { display: none; }
-    .hero-bg { max-width: none; width: 100%; }
   }
 </style>
 </head>
 <body>
   <main class="page">
-    <!-- arte da Branca de Neve (fundo do desktop) — só carrega em telas grandes -->
-    <picture class="hero-bg" aria-hidden="true">
-      <source media="(min-width: 860px)" srcset="images/hero-desktop.webp?v=2" />
-      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" loading="lazy" decoding="async" />
-    </picture>
 
-    <!-- espaço da cena do topo -->
-    <div class="hero-spacer" aria-hidden="true"></div>
+    <!-- ===== A arte é o background da .page; seta aponta p/ botões ===== -->
+    <a class="scroll-cue scroll-cue--hero" href="#links" aria-label="Ir para os botões">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </a>
 
     <div class="content">
 
       <!-- ===== BOTÕES DE LINK ===== -->
-      <nav class="links" aria-label="Links principais">
+      <nav class="links" id="links" aria-label="Links principais">
         <a id="link-site" class="link-card reveal" href="#" target="_blank" rel="noopener">
           <img src="images/btn-site.webp" alt="Acesse nosso site — Confira o mundo mágico da MEA" />
         </a>
@@ -388,7 +416,7 @@
       </nav>
 
       <!-- ===== FEEDBACKS ===== -->
-      <section class="feedbacks reveal">
+      <section class="feedbacks reveal" id="feedbacks">
         <h2>feedbacks</h2>
         <div class="carousel" id="carousel">
           <figure class="fb-card"><img src="images/feedback-1.webp" alt="Feedback de cliente sobre canecas da Disney" /></figure>
@@ -398,8 +426,13 @@
         <div class="dots" id="dots" aria-hidden="true"></div>
       </section>
 
+      <!-- seta entre feedbacks e FAQ -->
+      <a class="scroll-cue scroll-cue--inline" href="#faq" aria-label="Ir para as perguntas frequentes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </a>
+
       <!-- ===== FAQ ===== -->
-      <section class="faq reveal" aria-label="Perguntas frequentes">
+      <section class="faq reveal" id="faq" aria-label="Perguntas frequentes">
         <div class="faq-item">
           <button class="faq-q" aria-expanded="false">Os produtos são originais e oficiais da Disney?</button>
           <div class="faq-a"><p>Sim. Garantimos 100% de autenticidade. Nossa equipe faz a curadoria e compra os itens diretamente nos complexos e lojas oficiais da Disney dos EUA, Paris, Xangai, Japão e outros locais do mundo.</p></div>
@@ -426,7 +459,7 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2h-3v13.2a2.6 2.6 0 1 1-2.1-2.55V9.6a5.6 5.6 0 1 0 5.1 5.57V8.9a6.8 6.8 0 0 0 4 1.3V7.2a3.9 3.9 0 0 1-2.9-1.3A3.9 3.9 0 0 1 16.5 3z"/></svg>
         </a>
         <a id="link-x" href="#" target="_blank" rel="noopener" aria-label="X (Twitter)">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H20.5l-6.49 7.42L21.5 21h-5.9l-4.62-6.04L5.6 21H2.63l6.94-7.94L2.5 3h6.05l4.18 5.52L17.53 3zm-1.04 16.2h1.64L7.6 4.7H5.84l10.65 14.5z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.53 3H20.5l-6.49 7.42L21.5 21h-5.9l-4.62-6.04L5.6 21H2.63l6.94-7.94L2.5 3h6.05l4.18 5.52L17.53 3z"/></svg>
         </a>
       </nav>
 
@@ -437,21 +470,17 @@
 <script>
   /* ============================================================= */
   /*  >>> CONFIGURE AQUI OS LINKS DE DESTINO <<<                    */
-  /*  Basta trocar o texto entre aspas. Deixe "#" se ainda não     */
-  /*  tiver o link. Para o WhatsApp use o formato:                 */
-  /*  https://wa.me/55DDDNUMERO  (ex.: https://wa.me/5511999999999)*/
   /* ============================================================= */
   const LINKS = {
-    site:       "https://mickeyeverafter.com.br/",   // Botão "Acesse nosso site"
-    comunidade: "https://chat.whatsapp.com/HvmrIjAIbg06Ipsh6f9GCb?mode=wwt",   // Grupo VIP
-    whatsapp:   "https://api.whatsapp.com/send/?phone=5511940364268&text&type=phone_number&app_absent=0",   // Atendimento WhatsApp
+    site:       "https://mickeyeverafter.com.br/",
+    comunidade: "https://chat.whatsapp.com/HvmrIjAIbg06Ipsh6f9GCb?mode=wwt",
+    whatsapp:   "https://api.whatsapp.com/send/?phone=5511940364268&text&type=phone_number&app_absent=0",
     email:      "mailto:mickeyeverafter@gmail.com",
     instagram:  "https://www.instagram.com/mickeyeverafterstore",
     tiktok:     "https://www.tiktok.com/@mickeyeverafterstore",
     x:          "https://x.com/mickeyeverafter"
   };
 
-  // Aplica os links aos elementos
   const map = {
     "link-site": "site", "link-comunidade": "comunidade", "link-whatsapp": "whatsapp",
     "link-email": "email", "link-instagram": "instagram", "link-tiktok": "tiktok", "link-x": "x"
@@ -461,7 +490,6 @@
     if (el && LINKS[key] && LINKS[key] !== "#") el.href = LINKS[key];
   }
 
-  // Ano no rodapé
   document.getElementById("year").textContent = new Date().getFullYear();
 
   /* ===== FAQ acordeão ===== */
