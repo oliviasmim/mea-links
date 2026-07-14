@@ -352,10 +352,12 @@
     .links { gap: 30px; }
   }
 
-  @media (min-width: 1600px) {
+  @media (min-width: 1500px) {
     .content { max-width: 1360px; }
     .links { gap: 36px; }
-    .hero-bg { max-width: 1680px; }
+    /* sem blur nas laterais: a própria arte cobre 100% da largura */
+    .page::before { display: none; }
+    .hero-bg { max-width: none; width: 100%; }
   }
 </style>
 </head>
