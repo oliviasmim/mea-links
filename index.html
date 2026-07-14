@@ -245,21 +245,34 @@
     /* arte vertical de desktop como fundo full-bleed, dentro de uma coluna
        central (máx. 1200px) para não estourar em telas largas */
     .page {
-      max-width: 1200px;
-      margin: 0 auto;
+      max-width: none;
+      margin: 0;
       overflow: hidden;
       background: var(--teal-bg);
-      box-shadow: 0 0 90px rgba(4, 20, 45, .45);
     }
 
-    /* a arte vertical entra como <img> lazy (carrega só no desktop),
-       posicionada atrás do conteúdo, ocupando a largura da coluna */
+    /* preenche toda a largura (100vw) com uma cópia desfocada da arte,
+       para não sobrar barras vazias nas laterais em telas largas */
+    .page::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('images/hero-desktop.webp?v=2') center top / cover no-repeat;
+      filter: blur(42px) brightness(.92);
+      transform: scale(1.18);
+      z-index: 0;
+    }
+
+    /* a arte nítida fica centralizada, num tamanho natural (sem
+       super-zoom que causava o "corte") */
     .hero-bg {
       display: block;
       position: absolute;
-      top: 0; left: 0;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
       width: 100%;
-      z-index: 0;
+      max-width: 1500px;
+      z-index: 1;
     }
     .hero-bg img { display: block; width: 100%; height: auto; }
 
@@ -334,7 +347,15 @@
   }
 
   @media (min-width: 1240px) {
-    .content { padding-left: 56px; padding-right: 56px; }
+    /* botões maiores em telas grandes */
+    .content { max-width: 1180px; padding-left: 56px; padding-right: 56px; }
+    .links { gap: 30px; }
+  }
+
+  @media (min-width: 1600px) {
+    .content { max-width: 1360px; }
+    .links { gap: 36px; }
+    .hero-bg { max-width: 1680px; }
   }
 </style>
 </head>
