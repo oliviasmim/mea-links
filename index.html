@@ -72,6 +72,9 @@
   /* padding-top é relativo à LARGURA, então escala com o device   */
   .hero-spacer { width: 100%; padding-top: 112%; }
 
+  /* imagem de fundo do desktop — só aparece/carrega a partir de 860px */
+  .hero-bg { display: none; }
+
   /* Bloco de conteúdo sobre a floresta azul --------------------- */
   /* conteúdo (botões, feedbacks, FAQ) fica numa coluna estreita centralizada,
      mesmo com a imagem de fundo ocupando a largura total */
@@ -233,11 +236,117 @@
   @media (min-width: 520px) {
     .fb-card { flex-basis: 62%; }
   }
+
+  /* =========================================================== */
+  /*  DESKTOP — faixa larga do hero + grade                      */
+  /*  (o layout mobile acima permanece intacto)                  */
+  /* =========================================================== */
+  @media (min-width: 860px) {
+    /* arte vertical de desktop como fundo full-bleed, dentro de uma coluna
+       central (máx. 1200px) para não estourar em telas largas */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: hidden;
+      background: var(--teal-bg);
+      box-shadow: 0 0 90px rgba(4, 20, 45, .45);
+    }
+
+    /* a arte vertical entra como <img> lazy (carrega só no desktop),
+       posicionada atrás do conteúdo, ocupando a largura da coluna */
+    .hero-bg {
+      display: block;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      z-index: 0;
+    }
+    .hero-bg img { display: block; width: 100%; height: auto; }
+
+    /* reserva a cena do topo; os links ficam logo abaixo, dentro do
+       primeiro 100vh (sem precisar rolar) */
+    .hero-spacer {
+      padding-top: 0;
+      height: 74vh;
+      background: none;
+    }
+    .hero-spacer::after { display: none; }
+
+    /* conteúdo ocupa a largura maior do desktop, sobre a região azul */
+    .content {
+      max-width: 960px;
+      padding: 8px 40px 64px;
+    }
+
+    /* botões de link lado a lado, 3 colunas */
+    .links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    /* no desktop os 3 botões já nascem em destaque (estado "hover" como padrão) */
+    .link-card {
+      transform: translateY(-4px) scale(1.012);
+      box-shadow: 0 16px 34px rgba(4, 20, 45, .5);
+      filter: brightness(1.06) saturate(1.05);
+      border: 2px solid rgba(255, 255, 255, .55);
+    }
+    /* novo hover: destaque ainda maior */
+    .link-card:hover,
+    .link-card:focus-visible {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 26px 54px rgba(4, 20, 45, .6), 0 0 0 4px rgba(244, 196, 48, .55);
+      filter: brightness(1.12) saturate(1.12);
+      border-color: var(--gold);
+    }
+    .link-card:active { transform: translateY(-4px) scale(1.01); }
+
+    /* feedbacks: os 3 lado a lado, sem carrossel */
+    .feedbacks { margin-top: 56px; }
+    .feedbacks h2 { font-size: 2.8rem; margin-bottom: 20px; }
+    .carousel {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 820px;
+      margin: 0 auto;
+      overflow: visible;
+      padding: 0;
+    }
+    .fb-card { flex: none; }
+    .dots { display: none; }
+
+    /* FAQ numa coluna central mais confortável */
+    .faq {
+      max-width: 820px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 56px;
+    }
+    .faq-q { font-size: 1.05rem; padding: 19px 50px 19px 22px; }
+    .faq-a p { font-size: .98rem; padding: 0 22px 20px; }
+
+    .socials { margin-top: 56px; gap: 26px; }
+    .socials svg { width: 32px; height: 32px; }
+
+    .footer-note { font-size: .78rem; padding-top: 16px; }
+  }
+
+  @media (min-width: 1240px) {
+    .content { padding-left: 56px; padding-right: 56px; }
+  }
 </style>
 </head>
 <body>
   <main class="page">
-    <!-- arte da Branca de Neve (fundo) -->
+    <!-- arte da Branca de Neve (fundo do desktop) — só carrega em telas grandes -->
+    <picture class="hero-bg" aria-hidden="true">
+      <source media="(min-width: 860px)" srcset="images/hero-desktop.webp?v=2" />
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" loading="lazy" decoding="async" />
+    </picture>
+
+    <!-- espaço da cena do topo -->
     <div class="hero-spacer" aria-hidden="true"></div>
 
     <div class="content">
